@@ -31,9 +31,6 @@ services:
       - ${NGINX_FILES_PATH}/fastcgi:/etc/nginx/fastcgi:ro
       - /var/run/docker.sock:/tmp/docker.sock:ro
       - ./nginx.tmpl:/etc/docker-gen/templates/nginx.tmpl:ro
-    environment:
-      VIRTUAL_PROTO: fastcgi
-
 
   nginx-letsencrypt:
     image: jrcs/letsencrypt-nginx-proxy-companion
