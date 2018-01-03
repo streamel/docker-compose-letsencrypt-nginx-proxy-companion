@@ -1,7 +1,8 @@
 #!/bin/bash
 
 #CONTAINER=httpd:alpine
-CONTAINER=php:fpm
+#CONTAINER=php:fpm
+CONTAINER=php:7.2-fpm
 
 # Set up your DOMAIN
 if [ $# -eq 0 ]; then
