@@ -58,11 +58,30 @@ fi
 
 # 7. Start proxy
 
-# Check if you have multiple network
-if [ -z ${SERVICE_NETWORK+X} ]; then
-    docker-compose up -d
+# Check if must use separated container
+if [ ! -z ${USE_SEPARATED_CONATINER_SOCK+X} ] && [ "$USE_SEPARATED_CONATINER_SOCK" = true ]; then
+
+    # Check if you have multiple network
+    if [ -z ${SERVICE_NETWORK+X} ]; then
+        COMPOSE_OPTIONS="-f docker-compose-separated-container.yml"
+    else
+        COMPOSE_OPTIONS="-f docker-compose-separated-container-multiple-networks.yml"
+    fi
 else
-    docker-compose -f docker-compose-multiple-networks.yml up -d
+
+    # Check if you have multiple network
+    if [ ! -z ${SERVICE_NETWORK+X} ]; then
+        COMPOSE_OPTIONS="-f docker-compose-multiple-networks.yml"
+    else
+        COMPOSE_OPTIONS="-f docker-compose.yml"
+    fi
 fi
+
+# Start proxy with Options
+docker-compose $COMPOSE_OPTIONS up -d
+
+echo $COMPOSE_OPTIONS
+
+unset $COMPOSE_OPTIONS
 
 exit 0
